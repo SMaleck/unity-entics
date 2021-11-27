@@ -1,0 +1,19 @@
+{
+    "name": "SMaleck.EntiCS",
+    "rootNamespace": "EntiCS",
+    "references": [
+        "Zenject",
+        "UniRx",
+        "SMaleck.UtilitiesGeneral.Runtime",
+        "SMaleck.UtilitiesUniRx.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
