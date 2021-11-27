@@ -4,16 +4,16 @@ using Zenject;
 
 namespace EntiCS
 {
-    public class StandaloneMonoActor : MonoActor
+    public class StandaloneMonoEntity : MonoEntity
     {
         [Inject]
         private void Inject(
-            IStandaloneActorFactory standaloneActorFactory,
-            IActorsRepository actorsRepository)
+            IStandaloneEntityFactory standaloneActorFactory,
+            IEntitiesRepository entitiesRepository)
         {
             TrySetupRepo();
             standaloneActorFactory.SetupStandalone(this);
-            actorsRepository.Register(this);
+            entitiesRepository.Register(this);
         }
     }
 }

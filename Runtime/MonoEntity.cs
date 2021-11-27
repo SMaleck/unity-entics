@@ -6,12 +6,12 @@ using Zenject;
 
 namespace EntiCS
 {
-    public class MonoActor : MonoBehaviour, IActor
+    public class MonoEntity : MonoBehaviour, IEntity
     {
-        public class Factory : PlaceholderFactory<UnityEngine.Object, MonoActor> { }
+        public class Factory : PlaceholderFactory<UnityEngine.Object, MonoEntity> { }
 
         private ComponentsRepository _componentsRepo;
-        private IActorComponent[] _monoComponents;
+        private IEntityComponent[] _monoComponents;
 
         private void Awake()
         {
@@ -34,22 +34,22 @@ namespace EntiCS
             }
         }
 
-        private IActorComponent[] GetMonoComponents()
+        private IEntityComponent[] GetMonoComponents()
         {
-            return _monoComponents ?? (_monoComponents = GetComponentsInChildren<IActorComponent>());
+            return _monoComponents ?? (_monoComponents = GetComponentsInChildren<IEntityComponent>());
         }
 
-        public T Get<T>() where T : IActorComponent
+        public T Get<T>() where T : IEntityComponent
         {
             return _componentsRepo.Get<T>();
         }
 
-        public bool TryGet<T>(out T component) where T : IActorComponent
+        public bool TryGet<T>(out T component) where T : IEntityComponent
         {
             return _componentsRepo.TryGet<T>(out component);
         }
 
-        public bool Has<T>() where T : IActorComponent
+        public bool Has<T>() where T : IEntityComponent
         {
             return _componentsRepo.Has<T>();
         }
@@ -59,13 +59,13 @@ namespace EntiCS
             return _componentsRepo.Has(type);
         }
 
-        public IComponentsRepository Attach(IActorComponent component)
+        public IComponentsRepository Attach(IEntityComponent component)
         {
             _componentsRepo.Attach(component);
             return this;
         }
 
-        public IComponentsRepository Remove(IActorComponent component)
+        public IComponentsRepository Remove(IEntityComponent component)
         {
             _componentsRepo.Remove(component);
             return this;

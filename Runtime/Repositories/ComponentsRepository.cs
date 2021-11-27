@@ -7,14 +7,14 @@ namespace EntiCS.Repositories
 {
     public class ComponentsRepository : IComponentsRepository
     {
-        private readonly Dictionary<Type, IActorComponent> _components;
+        private readonly Dictionary<Type, IEntityComponent> _components;
 
         public ComponentsRepository()
         {
-            _components = new Dictionary<Type, IActorComponent>();
+            _components = new Dictionary<Type, IEntityComponent>();
         }
 
-        public T Get<T>() where T : IActorComponent
+        public T Get<T>() where T : IEntityComponent
         {
             if (!TryGet<T>(out var component))
             {
@@ -24,7 +24,7 @@ namespace EntiCS.Repositories
             return component;
         }
 
-        public bool TryGet<T>(out T component) where T : IActorComponent
+        public bool TryGet<T>(out T component) where T : IEntityComponent
         {
             var result = _components.TryGetValue(typeof(T), out var actorComponent);
             component = result ? (T)actorComponent : default;
@@ -32,7 +32,7 @@ namespace EntiCS.Repositories
             return result;
         }
 
-        public bool Has<T>() where T : IActorComponent
+        public bool Has<T>() where T : IEntityComponent
         {
             return TryGet<T>(out _);
         }
@@ -50,7 +50,7 @@ namespace EntiCS.Repositories
             return false;
         }
 
-        public IComponentsRepository Attach(IActorComponent component)
+        public IComponentsRepository Attach(IEntityComponent component)
         {
             var keyableTypes = GetKeyableTypes(component);
             foreach (var type in keyableTypes)
@@ -61,7 +61,7 @@ namespace EntiCS.Repositories
             return this;
         }
 
-        public IComponentsRepository Remove(IActorComponent component)
+        public IComponentsRepository Remove(IEntityComponent component)
         {
             var keyableTypes = GetKeyableTypes(component);
             foreach (var type in keyableTypes)
@@ -72,7 +72,7 @@ namespace EntiCS.Repositories
             return this;
         }
 
-        private IReadOnlyList<Type> GetKeyableTypes(IActorComponent component)
+        private IReadOnlyList<Type> GetKeyableTypes(IEntityComponent component)
         {
             var types = component
                 .GetType()
@@ -87,8 +87,8 @@ namespace EntiCS.Repositories
 
         private bool IsKeyableInterface(Type type)
         {
-            return !type.Name.Equals(nameof(IActorComponent), StringComparison.InvariantCultureIgnoreCase) &&
-                   typeof(IActorComponent).IsAssignableFrom(type);
+            return !type.Name.Equals(nameof(IEntityComponent), StringComparison.InvariantCultureIgnoreCase) &&
+                   typeof(IEntityComponent).IsAssignableFrom(type);
         }
     }
 }

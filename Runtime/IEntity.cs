@@ -2,7 +2,7 @@
 
 namespace EntiCS
 {
-    public interface IActor : IComponentsRepository
+    public interface IEntity : IComponentsRepository
     {
     }
 }

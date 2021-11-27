@@ -5,29 +5,29 @@ using Zenject;
 
 namespace EntiCS
 {
-    public class Actor : IActor
+    public class Entity : IEntity
     {
-        public class Factory : PlaceholderFactory<Actor> { }
+        public class Factory : PlaceholderFactory<Entity> { }
 
         private readonly ComponentsRepository _componentsRepo;
 
-        public Actor(IActorsRepository actorsRepository)
+        public Entity(IEntitiesRepository entitiesRepository)
         {
             _componentsRepo = new ComponentsRepository();
-            actorsRepository.Register(this);
+            entitiesRepository.Register(this);
         }
 
-        public T Get<T>() where T : IActorComponent
+        public T Get<T>() where T : IEntityComponent
         {
             return _componentsRepo.Get<T>();
         }
 
-        public bool TryGet<T>(out T component) where T : IActorComponent
+        public bool TryGet<T>(out T component) where T : IEntityComponent
         {
             return _componentsRepo.TryGet<T>(out component);
         }
 
-        public bool Has<T>() where T : IActorComponent
+        public bool Has<T>() where T : IEntityComponent
         {
             return _componentsRepo.Has<T>();
         }
@@ -37,13 +37,13 @@ namespace EntiCS
             return _componentsRepo.Has(type);
         }
 
-        public IComponentsRepository Attach(IActorComponent component)
+        public IComponentsRepository Attach(IEntityComponent component)
         {
             _componentsRepo.Attach(component);
             return this;
         }
 
-        public IComponentsRepository Remove(IActorComponent component)
+        public IComponentsRepository Remove(IEntityComponent component)
         {
             _componentsRepo.Remove(component);
             return this;

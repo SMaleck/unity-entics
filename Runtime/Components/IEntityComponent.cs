@@ -1,6 +1,6 @@
 ﻿namespace EntiCS.Components
 {
-    public interface IActorComponent
+    public interface IEntityComponent
     {
     }
 }
