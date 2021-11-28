@@ -4,7 +4,7 @@ using EntiCS.Systems;
 
 namespace EntiCS.Repositories
 {
-    public class EntitySystemsRepository : IEntitySystemsRepository
+    internal class EntitySystemsRepository : IEntitySystemsRepository
     {
         private readonly List<IEntitySystem> _systems;
         public IReadOnlyList<IEntitySystem> All => _systems;

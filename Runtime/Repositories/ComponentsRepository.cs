@@ -5,7 +5,7 @@ using EntiCS.Components;
 
 namespace EntiCS.Repositories
 {
-    public class ComponentsRepository : IComponentsRepository
+    internal class ComponentsRepository : IComponentsRepository
     {
         private readonly Dictionary<Type, IEntityComponent> _components;
 
@@ -39,15 +39,7 @@ namespace EntiCS.Repositories
 
         public bool Has(Type type)
         {
-            foreach (var component in _components.Values)
-            {
-                if (component.GetType().GetInterfaces().Contains(type))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _components.Keys.Contains(type);
         }
 
         public IComponentsRepository Attach(IEntityComponent component)

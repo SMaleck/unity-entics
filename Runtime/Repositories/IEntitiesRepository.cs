@@ -2,7 +2,7 @@
 
 namespace EntiCS.Repositories
 {
-    public interface IEntitiesRepository
+    internal interface IEntitiesRepository
     {
         void Register(IEntity entity);
         void Remove(IEntity entity);

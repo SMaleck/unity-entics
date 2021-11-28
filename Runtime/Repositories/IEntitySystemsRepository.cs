@@ -3,7 +3,7 @@ using EntiCS.Systems;
 
 namespace EntiCS.Repositories
 {
-    public interface IEntitySystemsRepository
+    internal interface IEntitySystemsRepository
     {
         IReadOnlyList<IEntitySystem> All { get; }
 

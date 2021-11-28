@@ -1,27 +1,46 @@
-﻿using System;
-using EntiCS.Repositories;
+﻿using EntiCS.Repositories;
+using EntiCS.Systems;
+using System;
 using Zenject;
 
 namespace EntiCS.World
 {
-    public class EnticsWorld : IUpdateable, IDisposable
+    public class EnticsWorld : IEnticsWorld, IUpdateable, IDisposable
     {
         public class Factory : PlaceholderFactory<EnticsWorld> { }
 
+        private readonly IWorldTicker _worldTicker;
         private readonly IEntitiesRepository _entitiesRepository;
         private readonly IEntitySystemsRepository _systemsRepository;
-        private readonly IWorldTicker _worldTicker;
 
-        public EnticsWorld(
-            IEntitiesRepository entitiesRepository,
-            IEntitySystemsRepository systemsRepository,
-            IWorldTicker worldTicker)
+        public EnticsWorld(IWorldTicker worldTicker)
         {
-            _entitiesRepository = entitiesRepository;
-            _systemsRepository = systemsRepository;
             _worldTicker = worldTicker;
 
+            _entitiesRepository = new EntitiesRepository();
+            _systemsRepository = new EntitySystemsRepository();
+
             _worldTicker.Register(this);
+        }
+
+        void IEnticsWorld.AddEntity(IEntity entity)
+        {
+            _entitiesRepository.Register(entity);
+        }
+
+        void IEnticsWorld.RemoveEntity(IEntity entity)
+        {
+            _entitiesRepository.Remove(entity);
+        }
+
+        void IEnticsWorld.AddSystem(IEntitySystem system)
+        {
+            _systemsRepository.Register(system);
+        }
+
+        void IEnticsWorld.RemoveSystem(IEntitySystem system)
+        {
+            _systemsRepository.Remove(system);
         }
 
         void IUpdateable.Update(double elapsedSeconds)

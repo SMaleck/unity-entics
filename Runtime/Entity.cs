@@ -11,10 +11,9 @@ namespace EntiCS
 
         private readonly ComponentsRepository _componentsRepo;
 
-        public Entity(IEntitiesRepository entitiesRepository)
+        public Entity()
         {
             _componentsRepo = new ComponentsRepository();
-            entitiesRepository.Register(this);
         }
 
         public T Get<T>() where T : IEntityComponent

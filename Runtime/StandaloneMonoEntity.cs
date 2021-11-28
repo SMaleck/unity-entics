@@ -1,5 +1,5 @@
 ﻿using EntiCS.Creation;
-using EntiCS.Repositories;
+using EntiCS.World;
 using Zenject;
 
 namespace EntiCS
@@ -9,11 +9,12 @@ namespace EntiCS
         [Inject]
         private void Inject(
             IStandaloneEntityFactory standaloneActorFactory,
-            IEntitiesRepository entitiesRepository)
+            IEnticsWorld world)
         {
             TrySetupRepo();
+
             standaloneActorFactory.SetupStandalone(this);
-            entitiesRepository.Register(this);
+            world.AddEntity(this);
         }
     }
 }

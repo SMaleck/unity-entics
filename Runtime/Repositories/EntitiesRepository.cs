@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EntiCS.Repositories
 {
-    public class EntitiesRepository : IEntitiesRepository
+    internal class EntitiesRepository : IEntitiesRepository
     {
         private readonly List<IEntity> _entities;
         private readonly Dictionary<Type[], IEntity[]> _filteredEntities;
@@ -45,17 +45,17 @@ namespace EntiCS.Repositories
 
         private void AddFilter(Type[] filter)
         {
-            var entities = new List<IEntity>();
+            var validEntities = new List<IEntity>();
             foreach (var entity in _entities)
             {
                 if (IsValidForFilter(entity, filter))
                 {
-                    entities.Add(entity);
+                    validEntities.Add(entity);
                 }
             }
 
-            var actorsArray = entities.Count > 0
-                ? _entities.ToArray()
+            var actorsArray = validEntities.Count > 0
+                ? validEntities.ToArray()
                 : Array.Empty<IEntity>();
 
             _filteredEntities.Add(filter, actorsArray);

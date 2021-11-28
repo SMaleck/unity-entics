@@ -1,5 +1,5 @@
-﻿using System;
-using EntiCS.Components;
+﻿using EntiCS.Components;
+using System;
 
 namespace EntiCS.Repositories
 {
