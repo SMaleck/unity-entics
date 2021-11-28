@@ -12,10 +12,12 @@ To use this package in your Unity project, you have to manually add it to you `m
 3. Add this packages git repository to the dependencies object in the JSON:
 
 ### Example:
+> NOTE: Version in the snippets below might be outdated, please double check it is the one you want.
+
 ```json
 {
   "dependencies": {
-    "com.smaleck.actor-system-rx": "git://github.com/SMaleck/unity-actor-system-rx.git#v0.3.0"
+    "com.smaleck.entics": "git://github.com/SMaleck/unity-entics.git#v1.0.0"
   }
 }
 ```
@@ -24,7 +26,7 @@ To use this package in your Unity project, you have to manually add it to you `m
 ```json
 {
   "dependencies": {
-    "com.smaleck.actor-system-rx": "git://github.com/SMaleck/unity-entics.git#v1.0.0"
+    "com.smaleck.entics": "git://github.com/SMaleck/unity-entics.git#v1.0.0"
   },
   "scopedRegistries": [
       {
