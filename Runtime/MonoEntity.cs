@@ -1,17 +1,16 @@
-﻿using System;
-using EntiCS.Components;
+﻿using EntiCS.Components;
 using EntiCS.Repositories;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace EntiCS
 {
     public class MonoEntity : MonoBehaviour, IEntity
     {
-        public class Factory : PlaceholderFactory<UnityEngine.Object, MonoEntity> { }
-
         private ComponentsRepository _componentsRepo;
-        private IEntityComponent[] _monoComponents;
+
+        public IReadOnlyList<IEntityComponent> Components => _componentsRepo.Components;
 
         private void Awake()
         {
@@ -26,17 +25,12 @@ namespace EntiCS
             }
 
             _componentsRepo = new ComponentsRepository();
-            var components = GetMonoComponents();
+            var components = GetComponentsInChildren<IEntityComponent>();
 
             foreach (var component in components)
             {
                 _componentsRepo.Attach(component);
             }
-        }
-
-        private IEntityComponent[] GetMonoComponents()
-        {
-            return _monoComponents ?? (_monoComponents = GetComponentsInChildren<IEntityComponent>());
         }
 
         public T Get<T>() where T : IEntityComponent

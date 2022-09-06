@@ -1,22 +1,21 @@
 ﻿using EntiCS.Repositories;
 using EntiCS.Systems;
+using EntiCS.Ticking;
 using System;
-using Zenject;
 
 namespace EntiCS.World
 {
     public class EnticsWorld : IEnticsWorld, IUpdateable, IDisposable
     {
-        public class Factory : PlaceholderFactory<EnticsWorld> { }
-
         private readonly IWorldTicker _worldTicker;
         private readonly IEntitiesRepository _entitiesRepository;
         private readonly IEntitySystemsRepository _systemsRepository;
 
-        public EnticsWorld(IWorldTicker worldTicker)
-        {
-            _worldTicker = worldTicker;
+        public bool IsPaused => _worldTicker.IsPaused;
 
+        public EnticsWorld()
+        {
+            _worldTicker = new WorldTicker();
             _entitiesRepository = new EntitiesRepository();
             _systemsRepository = new EntitySystemsRepository();
 
@@ -43,6 +42,11 @@ namespace EntiCS.World
             _systemsRepository.Remove(system);
         }
 
+        public void SetIsPaused(bool isPaused)
+        {
+            _worldTicker.SetIsPaused(isPaused);
+        }
+
         void IUpdateable.Update(double elapsedSeconds)
         {
             foreach (var system in _systemsRepository.All)
@@ -55,6 +59,7 @@ namespace EntiCS.World
         void IDisposable.Dispose()
         {
             _worldTicker.Remove(this);
+            _worldTicker.Dispose();
         }
     }
 }

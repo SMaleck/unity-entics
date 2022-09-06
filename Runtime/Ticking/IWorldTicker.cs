@@ -1,6 +1,8 @@
-﻿namespace EntiCS.World
+﻿using System;
+
+namespace EntiCS.Ticking
 {
-    public interface IWorldTicker
+    public interface IWorldTicker : IDisposable
     {
         bool IsPaused { get; }
         void SetIsPaused(bool isPaused);

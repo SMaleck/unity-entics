@@ -1,18 +1,19 @@
-﻿using System;
+﻿using EntiCS.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using EntiCS.Components;
 
 namespace EntiCS.Repositories
 {
     internal class ComponentsRepository : IComponentsRepository
     {
-        private readonly Dictionary<Type, IEntityComponent> _components;
+        private readonly List<IEntityComponent> _componentsRaw =
+            new List<IEntityComponent>();
 
-        public ComponentsRepository()
-        {
-            _components = new Dictionary<Type, IEntityComponent>();
-        }
+        private readonly Dictionary<Type, List<IEntityComponent>> _componentsByType =
+            new Dictionary<Type, List<IEntityComponent>>();
+
+        public IReadOnlyList<IEntityComponent> Components => _componentsRaw;
 
         public T Get<T>() where T : IEntityComponent
         {
@@ -23,13 +24,17 @@ namespace EntiCS.Repositories
 
             return component;
         }
-
+        
         public bool TryGet<T>(out T component) where T : IEntityComponent
         {
-            var result = _components.TryGetValue(typeof(T), out var actorComponent);
-            component = result ? (T)actorComponent : default;
+            if (_componentsByType.TryGetValue(typeof(T), out var components))
+            {
+                component = components.Count > 0 ? (T)components[0] : default;
+                return true;
+            }
 
-            return result;
+            component = default;
+            return false;
         }
 
         public bool Has<T>() where T : IEntityComponent
@@ -39,15 +44,24 @@ namespace EntiCS.Repositories
 
         public bool Has(Type type)
         {
-            return _components.Keys.Contains(type);
+            return _componentsByType.Keys.Contains(type);
         }
 
         public IComponentsRepository Attach(IEntityComponent component)
         {
+            _componentsRaw.Add(component);
+
             var keyableTypes = GetKeyableTypes(component);
             foreach (var type in keyableTypes)
             {
-                _components.Add(type, component);
+                if (_componentsByType.TryGetValue(type, out var components))
+                {
+                    components.Add(component);
+                }
+                else
+                {
+                    _componentsByType.Add(type, new List<IEntityComponent>() { component });
+                }
             }
 
             return this;
@@ -55,10 +69,15 @@ namespace EntiCS.Repositories
 
         public IComponentsRepository Remove(IEntityComponent component)
         {
+            _componentsRaw.Remove(component);
+
             var keyableTypes = GetKeyableTypes(component);
             foreach (var type in keyableTypes)
             {
-                _components.Remove(type);
+                if (_componentsByType.TryGetValue(type, out var components))
+                {
+                    components.Remove(component);
+                }
             }
 
             return this;

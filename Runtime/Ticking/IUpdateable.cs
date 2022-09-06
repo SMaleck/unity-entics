@@ -1,4 +1,4 @@
-﻿namespace EntiCS.World
+﻿namespace EntiCS.Ticking
 {
     public interface IUpdateable
     {

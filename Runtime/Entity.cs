@@ -1,15 +1,15 @@
-﻿using System;
-using EntiCS.Components;
+﻿using EntiCS.Components;
 using EntiCS.Repositories;
-using Zenject;
+using System;
+using System.Collections.Generic;
 
 namespace EntiCS
 {
     public class Entity : IEntity
     {
-        public class Factory : PlaceholderFactory<Entity> { }
-
         private readonly ComponentsRepository _componentsRepo;
+
+        public IReadOnlyList<IEntityComponent> Components => _componentsRepo.Components;
 
         public Entity()
         {

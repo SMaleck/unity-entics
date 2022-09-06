@@ -1,15 +1,11 @@
 {
     "name": "com.smaleck.entics",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "displayName": "EntiCS",
     "description": "Provides a simple ECS solution for Unity with Zenject",
-    "unity": "2019.1",
+    "unity": "2020.3",
     "unityRelease": "0b5",
-    "dependencies": {
-        "com.unity.test-framework": "^1.1.24",
-        "com.svermeulen.extenject": "9.2.0-stcf3",
-        "com.smaleck.utilities-general": "git://github.com/SMaleck/unity-utilities-general.git#v1.0.1"
-    },
+    "dependencies": { },
     "keywords": [
         "actor",
         "ecs"

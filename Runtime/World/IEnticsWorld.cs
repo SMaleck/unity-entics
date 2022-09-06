@@ -9,5 +9,8 @@ namespace EntiCS.World
 
         void AddSystem(IEntitySystem system);
         void RemoveSystem(IEntitySystem system);
+
+        bool IsPaused { get; }
+        void SetIsPaused(bool isPaused);
     }
 }
