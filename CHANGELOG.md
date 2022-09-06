@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] 2021-11-27
+## [0.2.0] 2022-09-06
 [Changed]
 - Removes Zenject dependency, which necessitates a significant rewrite
 - `ComponentRepository` now can handle multiple components of the same type
