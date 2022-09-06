@@ -7,7 +7,7 @@ Add the dependency as a git-link to your project. Please double check, that the 
 ```json
 {
   "dependencies": {
-    "com.smaleck.entics": "git://github.com/SMaleck/unity-entics.git#v0.2.0"
+    "com.smaleck.entics": "https://github.com/SMaleck/unity-entics.git#v0.2.0"
   }
 }
 ```
