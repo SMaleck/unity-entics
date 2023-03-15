@@ -1,65 +1,67 @@
-﻿using EntiCS.Repositories;
-using EntiCS.Systems;
-using EntiCS.Ticking;
+﻿using EntiCS.Entities;
+using EntiCS.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace EntiCS.World
 {
-    public class EnticsWorld : IEnticsWorld, IUpdateable, IDisposable
+    public class EntiCSWorld : IWorld, IDisposable
     {
-        private readonly IWorldTicker _worldTicker;
         private readonly IEntitiesRepository _entitiesRepository;
-        private readonly IEntitySystemsRepository _systemsRepository;
+        private readonly Queue<StructureEvent> _eventQueue;
 
-        public bool IsPaused => _worldTicker.IsPaused;
+        public IReadOnlyCollection<IEntity> All => _entitiesRepository.All;
 
-        public EnticsWorld()
+        public EntiCSWorld()
         {
-            _worldTicker = new WorldTicker();
             _entitiesRepository = new EntitiesRepository();
-            _systemsRepository = new EntitySystemsRepository();
-
-            _worldTicker.Register(this);
+            _eventQueue = new Queue<StructureEvent>();
         }
 
-        void IEnticsWorld.AddEntity(IEntity entity)
+        public void Add(IEntity entity)
         {
-            _entitiesRepository.Register(entity);
+            _eventQueue.Enqueue(new StructureEvent(
+                StructureEventOperation.AddEntity, entity));
         }
 
-        void IEnticsWorld.RemoveEntity(IEntity entity)
+        public void Remove(IEntity entity)
         {
-            _entitiesRepository.Remove(entity);
+            _eventQueue.Enqueue(new StructureEvent(
+                StructureEventOperation.RemoveEntity, entity));
         }
 
-        void IEnticsWorld.AddSystem(IEntitySystem system)
+        public IReadOnlyCollection<IEntity> GetBy(Type[] filter)
         {
-            _systemsRepository.Register(system);
+            return _entitiesRepository.GetBy(filter);
         }
 
-        void IEnticsWorld.RemoveSystem(IEntitySystem system)
+        public void ProcessEventQueue()
         {
-            _systemsRepository.Remove(system);
-        }
-
-        public void SetIsPaused(bool isPaused)
-        {
-            _worldTicker.SetIsPaused(isPaused);
-        }
-
-        void IUpdateable.Update(double elapsedSeconds)
-        {
-            foreach (var system in _systemsRepository.All)
+            var count = _eventQueue.Count;
+            for (var i = 0; i < count; i++)
             {
-                var actors = _entitiesRepository.GetBy(system.Filter);
-                system.Update(elapsedSeconds, actors);
+                var worldEvent = _eventQueue.Dequeue();
+
+                switch (worldEvent.Operation)
+                {
+                    case StructureEventOperation.AddEntity:
+                        _entitiesRepository.Add(worldEvent.Entity);
+                        break;
+
+                    case StructureEventOperation.RemoveEntity:
+                        _entitiesRepository.Remove(worldEvent.Entity);
+                        break;
+
+                    default:
+                        EntiCSLog.Error($"Unknown Operation: {worldEvent.Operation}");
+                        break;
+                }
             }
         }
 
         void IDisposable.Dispose()
         {
-            _worldTicker.Remove(this);
-            _worldTicker.Dispose();
+            // ToDo Destroy all entities
         }
     }
 }

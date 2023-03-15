@@ -1,14 +1,13 @@
 {
     "name": "com.smaleck.entics",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "displayName": "EntiCS",
-    "description": "Provides a simple ECS solution for Unity with Zenject",
+    "description": "A simple ECS solution for Unity",
     "unity": "2020.3",
-    "unityRelease": "0b5",
     "dependencies": { },
     "keywords": [
-        "actor",
-        "ecs"
+        "ecs",
+        "unity"
     ],
     "author": {
         "name": "SMaleck",

@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using EntiCS.Entities;
+using EntiCS.Ticking;
 
 namespace EntiCS.Systems
 {
     public interface IEntitySystem
     {
-        int Priority { get; }
+        TickType UpdateType { get; }
+        int ExecutionOrder { get; }
         Type[] Filter { get; }
 
-        void Update(double elapsedSeconds, IEntity[] entities);
+        void Update(float elapsedSeconds, IReadOnlyCollection<IEntity> entities);
     }
 }

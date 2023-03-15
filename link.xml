@@ -1,0 +1,3 @@
+<linker>
+    <assembly fullname="EntiCS" preserve="all"/>
+</linker>

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace EntiCS.Utility
 {
-    public static class EnticsLog
+    public static class EntiCSLog
     {
         [Conditional("DEBUG")]
         public static void Log(object message)
