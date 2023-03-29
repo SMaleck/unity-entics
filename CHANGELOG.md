@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] 2023-03-29
+[Added]
+- Adds custom editor for MonoEntities, which allows to easily add components.
+
 ## [1.0.0] 2023-03-15
 [Changed]
 - Several small improvements and bugfixes that cam out of using the package in other projects
