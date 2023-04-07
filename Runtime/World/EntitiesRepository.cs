@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace EntiCS.World
 {
-    internal class EntitiesRepository : IEntitiesRepository
+    internal class EntitiesRepository
     {
         private readonly HashSet<IEntity> _entities;
         private readonly Dictionary<Type[], EntityQueryResult> _queries;
 
-        public IReadOnlyCollection<IEntity> All => _entities;
+        public HashSet<IEntity> All => _entities;
 
         public EntitiesRepository()
         {
@@ -19,23 +19,21 @@ namespace EntiCS.World
 
         public void Add(IEntity entity)
         {
-            if (!_entities.Contains(entity))
+            if (_entities.Add(entity))
             {
-                _entities.Add(entity);
                 AddEntityToQuery(entity);
             }
         }
 
         public void Remove(IEntity entity)
         {
-            if (_entities.Contains(entity))
+            if (_entities.Remove(entity))
             {
-                _entities.Remove(entity);
                 RemoveEntityFromQuery(entity);
             }
         }
 
-        public IReadOnlyCollection<IEntity> GetBy(Type[] filter)
+        public HashSet<IEntity> GetBy(Type[] filter)
         {
             if (_queries.TryGetValue(filter, out var queryResult))
             {
@@ -87,8 +85,7 @@ namespace EntiCS.World
         {
             foreach (var queryResult in _queries.Values)
             {
-                if (IsValidForFilter(entity, queryResult.Filter) &&
-                    !queryResult.Entities.Contains(entity))
+                if (IsValidForFilter(entity, queryResult.Filter))
                 {
                     queryResult.Entities.Add(entity);
                 }
@@ -102,10 +99,7 @@ namespace EntiCS.World
         {
             foreach (var queryResult in _queries.Values)
             {
-                if (queryResult.Entities.Contains(entity))
-                {
-                    queryResult.Entities.Remove(entity);
-                }
+                queryResult.Entities.Remove(entity);
             }
         }
     }

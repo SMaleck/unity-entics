@@ -7,7 +7,7 @@ namespace EntiCS.World
 {
     public class EntiCSWorld : IWorld, IDisposable
     {
-        private readonly IEntitiesRepository _entitiesRepository;
+        private readonly EntitiesRepository _entitiesRepository;
         private readonly Queue<StructureEvent> _eventQueue;
 
         public IReadOnlyCollection<IEntity> All => _entitiesRepository.All;
@@ -30,7 +30,7 @@ namespace EntiCS.World
                 StructureEventOperation.RemoveEntity, entity));
         }
 
-        public IReadOnlyCollection<IEntity> GetBy(Type[] filter)
+        public HashSet<IEntity> GetBy(Type[] filter)
         {
             return _entitiesRepository.GetBy(filter);
         }
@@ -61,7 +61,14 @@ namespace EntiCS.World
 
         void IDisposable.Dispose()
         {
-            // ToDo Destroy all entities
+            foreach (var entity in All)
+            {
+                _entitiesRepository.Remove(entity);
+                if (entity is MonoEntity monoEntity)
+                {
+                    UnityEngine.Object.Destroy(monoEntity);
+                }
+            }
         }
     }
 }

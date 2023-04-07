@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.0] 2023-04-07
+[Fixed]
+- `EntiCSTicker.SetTimeScale(float)` did not actually set the internal timescale. This is fixed now.
+
+[Changed]
+- Renamed `IUpdateable.Update(float)` interface to `OnUpdate(float)` so MonoBehaviours can directly implement the interface.
+- Removed `OnBeforeTick` and `OnAfterTick` actions from `EntiCSTicker`. They were only useful for profiling and caused an unnecessary null-check on each tick.
+- Removed `TickerProfiler` as well, as there was no use for it anymore. The Unity Profiler is more capable for this purpose anyway.
+- Some small performance tweaks. EntiCS should now be completely allocation free up until the point of the iteration in a given system.
+- Removed superfluous, internal interfaces `IEntitiesRepository` and `IEntitySystemsRepository`
+
+[Added]
+- `EntiCSWorld` now destroys entities on disposal
+
 ## [1.1.0] 2023-03-29
 [Added]
 - Adds custom editor for MonoEntities, which allows to easily add components.

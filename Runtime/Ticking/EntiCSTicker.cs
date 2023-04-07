@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntiCS.Utility;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,20 +7,18 @@ namespace EntiCS.Ticking
 {
     public class EntiCSTicker : ITicker
     {
+        // The number is a bit arbitrary, but 3 is guaranteed for the systems channels
+        // So double that seemed reasonable
+        private const int InitialSize = 6;
+
         private readonly EntiCSTickerMonoProxy _tickerComponent;
 
-        private readonly List<IUpdateable> _updateables = new List<IUpdateable>();
-        private readonly List<IUpdateable> _fixedUpdateables = new List<IUpdateable>();
-        private readonly List<IUpdateable> _lateUpdateables = new List<IUpdateable>();
+        private readonly List<IUpdateable> _updateables = new List<IUpdateable>(InitialSize);
+        private readonly List<IUpdateable> _fixedUpdateables = new List<IUpdateable>(InitialSize);
+        private readonly List<IUpdateable> _lateUpdateables = new List<IUpdateable>(InitialSize);
 
         public bool IsPaused { get; private set; } = false;
         public float TimeScale { get; private set; } = 1f;
-
-        public delegate void BeforeTick(TickType tickType);
-        public delegate void AfterTick(TickType updateType);
-
-        public BeforeTick OnBeforeTick { get; set; }
-        public AfterTick OnAfterTick { get; set; }
 
         public EntiCSTicker()
         {
@@ -38,37 +37,51 @@ namespace EntiCS.Ticking
 
         public void SetTimeScale(float timeScale)
         {
-            TimeScale = Math.Max(0, TimeScale);
+            TimeScale = Math.Max(0, timeScale);
         }
 
-        public void AddUpdate(IUpdateable updateable)
+        public void Add(TickType tickType, IUpdateable updateable)
         {
-            Add(_updateables, updateable);
+            switch (tickType)
+            {
+                case TickType.Update:
+                    Add(_updateables, updateable);
+                    break;
+
+                case TickType.FixedUpdate:
+                    Add(_fixedUpdateables, updateable);
+                    break;
+
+                case TickType.LateUpdate:
+                    Add(_lateUpdateables, updateable);
+                    break;
+
+                default:
+                    EntiCSLog.Error($"cannot ADD {nameof(IUpdateable)} for TickType {tickType}");
+                    break;
+            }
         }
 
-        public void AddFixedUpdate(IUpdateable updateable)
+        public void Remove(TickType tickType, IUpdateable updateable)
         {
-            Add(_fixedUpdateables, updateable);
-        }
+            switch (tickType)
+            {
+                case TickType.Update:
+                    Remove(_updateables, updateable);
+                    break;
 
-        public void AddLateUpdate(IUpdateable updateable)
-        {
-            Add(_lateUpdateables, updateable);
-        }
+                case TickType.FixedUpdate:
+                    Remove(_fixedUpdateables, updateable);
+                    break;
 
-        public void RemoveUpdate(IUpdateable updateable)
-        {
-            Remove(_updateables, updateable);
-        }
+                case TickType.LateUpdate:
+                    Remove(_lateUpdateables, updateable);
+                    break;
 
-        public void RemoveFixedUpdate(IUpdateable updateable)
-        {
-            Remove(_fixedUpdateables, updateable);
-        }
-
-        public void RemoveLateUpdate(IUpdateable updateable)
-        {
-            Remove(_lateUpdateables, updateable);
+                default:
+                    EntiCSLog.Error($"cannot REMOVE {nameof(IUpdateable)} for TickType {tickType}");
+                    break;
+            }
         }
 
         public void Dispose()
@@ -118,8 +131,6 @@ namespace EntiCS.Ticking
                 return;
             }
 
-            OnBeforeTick?.Invoke(type);
-
             var deltaTime = unscaledDeltaTime * TimeScale;
             for (var i = 0; i < updateables.Count; i++)
             {
@@ -130,10 +141,8 @@ namespace EntiCS.Ticking
                 }
 
                 var updateable = updateables[i];
-                updateable.Update(deltaTime);
+                updateable.OnUpdate(deltaTime);
             }
-
-            OnAfterTick?.Invoke(type);
         }
     }
 }

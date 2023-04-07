@@ -1,5 +1,4 @@
 ﻿using System;
-using static EntiCS.Ticking.EntiCSTicker;
 
 namespace EntiCS.Ticking
 {
@@ -8,9 +7,6 @@ namespace EntiCS.Ticking
         bool IsPaused { get; }
         float TimeScale { get; }
 
-        public BeforeTick OnBeforeTick { get; set; }
-        public AfterTick OnAfterTick { get; set; }
-
         void SetIsPaused(bool isPaused);
 
         /// <summary>
@@ -18,12 +14,7 @@ namespace EntiCS.Ticking
         /// </summary>
         void SetTimeScale(float timeScale);
 
-        void AddUpdate(IUpdateable updateable);
-        void AddFixedUpdate(IUpdateable updateable);
-        void AddLateUpdate(IUpdateable updateable);
-
-        void RemoveUpdate(IUpdateable updateable);
-        void RemoveFixedUpdate(IUpdateable updateable);
-        void RemoveLateUpdate(IUpdateable updateable);
+        void Add(TickType tickType, IUpdateable updateable);
+        void Remove(TickType tickType, IUpdateable updateable);
     }
 }

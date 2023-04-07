@@ -13,6 +13,12 @@ This will re-filter the entity.
 ## Entites are not destroyed, when the world is disposed
 `EntiCSWorld` implements `IDisposable`, but currently entities that have been added to the world will not be disposed or destroyed, when you dispose the world. You will have to take care of this yourself.
 
+## Other Future Plans
+- Expose some form of system wide configuration to allow more fine tuned control by the client. 
+  - Initial list size in EntiCSTicker 
+  - Initial list size in SystemsRepository. This is particularly predictable
+  - Initial list size in EntityRepository. There could be predictable use cases
+
 # Quick Start
 Add the dependency as a git-link to your project. Please double check, that the version from the snippet is the one you actually want.
 ```json

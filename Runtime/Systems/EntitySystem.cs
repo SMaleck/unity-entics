@@ -11,6 +11,6 @@ namespace EntiCS.Systems
         public virtual int ExecutionOrder { get; } = 0;
         public abstract Type[] Filter { get; }
 
-        public abstract void Update(float elapsedSeconds, IReadOnlyCollection<IEntity> entities);
+        public abstract void Update(float elapsedSeconds, HashSet<IEntity> entities);
     }
 }

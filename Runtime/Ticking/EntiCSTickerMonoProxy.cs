@@ -21,17 +21,17 @@ namespace EntiCS.Ticking
 
         private void Update()
         {
-            _onUpdate?.Invoke();
+            _onUpdate.Invoke();
         }
 
         private void FixedUpdate()
         {
-            _onFixedUpdate?.Invoke();
+            _onFixedUpdate.Invoke();
         }
 
         private void LateUpdate()
         {
-            _onLateUpdate?.Invoke();
+            _onLateUpdate.Invoke();
         }
     }
 }

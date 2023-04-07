@@ -56,7 +56,6 @@ namespace EntiCS
 
             var profilers = new IProfiler[]
             {
-                new TickProfiler(settings, runner.Ticker),
                 new SystemsProfiler(settings, runner)
             };
 

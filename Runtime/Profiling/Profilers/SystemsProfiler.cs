@@ -36,7 +36,7 @@ namespace EntiCS.Profiling.Profilers
                 ExecutionOrder = executionOrder;
             }
 
-            public void Update(float elapsedSeconds, IReadOnlyCollection<IEntity> entities)
+            public void Update(float elapsedSeconds, HashSet<IEntity> entities)
             {
                 _onUpdate(_key);
             }

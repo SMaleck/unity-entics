@@ -11,6 +11,6 @@ namespace EntiCS.Systems
         int ExecutionOrder { get; }
         Type[] Filter { get; }
 
-        void Update(float elapsedSeconds, IReadOnlyCollection<IEntity> entities);
+        void Update(float elapsedSeconds, HashSet<IEntity> entities);
     }
 }

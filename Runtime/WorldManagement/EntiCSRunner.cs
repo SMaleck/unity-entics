@@ -9,7 +9,7 @@ namespace EntiCS.WorldManagement
 {
     public class EntiCSRunner : IEntiCSRunner
     {
-        private readonly IEntitySystemsRepository _systemsRepository;
+        private readonly EntitySystemsRepository _systemsRepository;
         private readonly IUpdateable _updateProxy;
         private readonly IUpdateable _fixedUpdateProxy;
         private readonly IUpdateable _lateUpdateProxy;
@@ -28,9 +28,9 @@ namespace EntiCS.WorldManagement
             _fixedUpdateProxy = new UpdateableProxy(FixedUpdate);
             _lateUpdateProxy = new UpdateableProxy(LateUpdate);
 
-            Ticker.AddUpdate(_updateProxy);
-            Ticker.AddFixedUpdate(_fixedUpdateProxy);
-            Ticker.AddLateUpdate(_lateUpdateProxy);
+            Ticker.Add(TickType.Update, _updateProxy);
+            Ticker.Add(TickType.FixedUpdate, _fixedUpdateProxy);
+            Ticker.Add(TickType.LateUpdate, _lateUpdateProxy);
         }
 
         public void AddSystem(IEntitySystem system)
@@ -81,9 +81,9 @@ namespace EntiCS.WorldManagement
         {
             World.Dispose();
 
-            Ticker.RemoveUpdate(_updateProxy);
-            Ticker.RemoveFixedUpdate(_fixedUpdateProxy);
-            Ticker.RemoveLateUpdate(_lateUpdateProxy);
+            Ticker.Remove(TickType.Update, _updateProxy);
+            Ticker.Remove(TickType.FixedUpdate, _fixedUpdateProxy);
+            Ticker.Remove(TickType.LateUpdate, _lateUpdateProxy);
         }
     }
 }

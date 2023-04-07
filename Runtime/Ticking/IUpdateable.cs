@@ -2,6 +2,6 @@
 {
     public interface IUpdateable
     {
-        void Update(float elapsedSeconds);
+        void OnUpdate(float elapsedSeconds);
     }
 }

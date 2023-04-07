@@ -12,7 +12,7 @@ namespace EntiCS.Utility
             _onUpdate = onUpdate;
         }
 
-        public void Update(float elapsedSeconds)
+        public void OnUpdate(float elapsedSeconds)
         {
             _onUpdate.Invoke(elapsedSeconds);
         }

@@ -10,7 +10,7 @@ namespace EntiCS.World
 
         void Add(IEntity entity);
         void Remove(IEntity entity);
-        IReadOnlyCollection<IEntity> GetBy(Type[] filter);
+        HashSet<IEntity> GetBy(Type[] filter);
 
         void ProcessEventQueue();
     }

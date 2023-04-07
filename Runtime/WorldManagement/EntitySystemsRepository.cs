@@ -5,7 +5,7 @@ using EntiCS.Ticking;
 
 namespace EntiCS.WorldManagement
 {
-    internal class EntitySystemsRepository : IEntitySystemsRepository
+    internal class EntitySystemsRepository
     {
         private readonly Dictionary<TickType, List<IEntitySystem>> _systems;
         public IReadOnlyDictionary<TickType, List<IEntitySystem>> All => _systems;
