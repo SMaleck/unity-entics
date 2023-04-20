@@ -32,6 +32,15 @@ namespace EntiCS.World
                 RemoveEntityFromQuery(entity);
             }
         }
+        
+        public IEntity[] Flush()
+        {
+            var array = _entities.ToArray();
+            _entities.Clear();
+            _queries.Clear();
+
+            return array;
+        }
 
         public HashSet<IEntity> GetBy(Type[] filter)
         {

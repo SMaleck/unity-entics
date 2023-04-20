@@ -61,10 +61,11 @@ namespace EntiCS.World
 
         void IDisposable.Dispose()
         {
-            foreach (var entity in All)
+            var entities = _entitiesRepository.Flush();
+            for (var i = entities.Length; i >= 0; i--)
             {
-                _entitiesRepository.Remove(entity);
-                if (entity is MonoEntity monoEntity)
+                var entity = entities[i];
+                if (entity != null && entity is MonoEntity monoEntity)
                 {
                     UnityEngine.Object.Destroy(monoEntity);
                 }
