@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.0] 2023-04-19
+[Changed]
+- Removes capability to have more than one component of the same type per entity. This was causing issues on some platforms, added complexity and reduced performance, while offering little value. This was also at odds with the concept of ECS, which should not allow for multiple components of the same type.
+
 ## [2.0.0] 2023-04-07
 [Fixed]
 - `EntiCSTicker.SetTimeScale(float)` did not actually set the internal timescale. This is fixed now.

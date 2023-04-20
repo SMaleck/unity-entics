@@ -10,8 +10,8 @@ namespace EntiCS.Entities
         private readonly HashSet<IEntityComponent> _componentsRaw =
             new HashSet<IEntityComponent>();
 
-        private readonly Dictionary<Type, List<IEntityComponent>> _componentsByType =
-            new Dictionary<Type, List<IEntityComponent>>();
+        private readonly Dictionary<Type, IEntityComponent> _componentsByType =
+            new Dictionary<Type, IEntityComponent>();
 
         public IReadOnlyCollection<IEntityComponent> Components => _componentsRaw;
 
@@ -21,38 +21,18 @@ namespace EntiCS.Entities
         /// <exception cref="T:System.ArgumentNullException"></exception>
         public T Get<T>() where T : IEntityComponent
         {
-            return (T)_componentsByType[typeof(T)][0];
-        }
-
-        public T[] GetAll<T>() where T : IEntityComponent
-        {
-            if (_componentsByType.TryGetValue(typeof(T), out var components))
-            {
-                var count = components.Count;
-                var castComponents = new T[count];
-
-                var i = 0;
-                foreach (var component in components)
-                {
-                    castComponents[i] = (T)component;
-                    i++;
-                }
-
-                return castComponents;
-            }
-
-            return Array.Empty<T>();
+            return (T)_componentsByType[typeof(T)];
         }
 
         public bool TryGet<T>(out T component) where T : IEntityComponent
         {
-            if (_componentsByType.TryGetValue(typeof(T), out var components))
+            component = default;
+            if (_componentsByType.TryGetValue(typeof(T), out var c))
             {
-                component = components.Count > 0 ? (T)components[0] : default;
+                component = (T)c;
                 return true;
             }
 
-            component = default;
             return false;
         }
 
@@ -71,16 +51,10 @@ namespace EntiCS.Entities
             _componentsRaw.Add(component);
 
             var keyableTypes = GetKeyableTypes(component);
-            foreach (var type in keyableTypes)
+            for (int i = 0; i < keyableTypes.Count; i++)
             {
-                if (_componentsByType.TryGetValue(type, out var components))
-                {
-                    components.Add(component);
-                }
-                else
-                {
-                    _componentsByType.Add(type, new List<IEntityComponent>() { component });
-                }
+                var type = keyableTypes[i];
+                _componentsByType.Add(type, component);
             }
 
             return this;
@@ -91,12 +65,10 @@ namespace EntiCS.Entities
             _componentsRaw.Remove(component);
 
             var keyableTypes = GetKeyableTypes(component);
-            foreach (var type in keyableTypes)
+            for (int i = 0; i < keyableTypes.Count; i++)
             {
-                if (_componentsByType.TryGetValue(type, out var components))
-                {
-                    components.Remove(component);
-                }
+                var type = keyableTypes[i];
+                _componentsByType.Remove(type);
             }
 
             return this;

@@ -20,11 +20,6 @@ namespace EntiCS.Entities
             return _componentsRepo.Get<T>();
         }
 
-        public T[] GetAll<T>() where T : IEntityComponent
-        {
-            return _componentsRepo.GetAll<T>();
-        }
-
         public bool TryGet<T>(out T component) where T : IEntityComponent
         {
             return _componentsRepo.TryGet<T>(out component);

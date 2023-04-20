@@ -1,6 +1,6 @@
-﻿using System;
+﻿using EntiCS.Entities.Components;
+using System;
 using System.Collections.Generic;
-using EntiCS.Entities.Components;
 using UnityEngine;
 
 namespace EntiCS.Entities
@@ -43,11 +43,6 @@ namespace EntiCS.Entities
         public T Get<T>() where T : IEntityComponent
         {
             return EntityInternal.Get<T>();
-        }
-
-        public T[] GetAll<T>() where T : IEntityComponent
-        {
-            return EntityInternal.GetAll<T>();
         }
 
         public bool TryGet<T>(out T component) where T : IEntityComponent
