@@ -62,7 +62,7 @@ namespace EntiCS.World
         void IDisposable.Dispose()
         {
             var entities = _entitiesRepository.Flush();
-            for (var i = entities.Length; i >= 0; i--)
+            for (var i = entities.Length - 1; i >= 0; i--)
             {
                 var entity = entities[i];
                 if (entity != null && entity is MonoEntity monoEntity)

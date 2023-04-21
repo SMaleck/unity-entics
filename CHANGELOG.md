@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.2] 2023-04-21
+[Fixed]
+- Fixes faulty iteration in `EntiCSWorld.Dispose`
+
 ## [3.0.1] 2023-04-21
 [Fixed]
 - `EntiCSWorld.Dispose` could throw an exception due to the underlying collection being changed while disposing entities. Modified iteration to be safe against that
