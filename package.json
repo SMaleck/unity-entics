@@ -1,6 +1,6 @@
 {
     "name": "com.smaleck.entics",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "displayName": "EntiCS",
     "description": "A simple ECS solution for Unity",
     "unity": "2021.3",

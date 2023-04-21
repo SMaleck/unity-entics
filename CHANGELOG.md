@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.1] 2023-04-21
+[Fixed]
+- `EntiCSWorld.Dispose` could throw an exception due to the underlying collection being changed while disposing entities. Modified iteration to be safe against that
+
 ## [3.0.0] 2023-04-19
 [Changed]
 - Removes capability to have more than one component of the same type per entity. This was causing issues on some platforms, added complexity and reduced performance, while offering little value. This was also at odds with the concept of ECS, which should not allow for multiple components of the same type.
