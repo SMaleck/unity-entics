@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.3] 2023-12-15
+[Fixed]
+- Adds safeguard in `EntiCSTicker.Dispose`
+
 ## [3.0.2] 2023-04-21
 [Fixed]
 - Fixes faulty iteration in `EntiCSWorld.Dispose`

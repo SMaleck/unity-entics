@@ -94,7 +94,7 @@ namespace EntiCS.Entities
 
         private void OnValidate()
         {
-            foreach (var component in _serializedComponents)
+            foreach (var component in SerializedComponents)
             {
                 if (component is EntityComponent entityComponent)
                 {

@@ -90,7 +90,10 @@ namespace EntiCS.Ticking
             _fixedUpdateables.Clear();
             _lateUpdateables.Clear();
 
-            UnityEngine.Object.Destroy(_tickerComponent.gameObject);
+            if (_tickerComponent)
+            {
+                UnityEngine.Object.Destroy(_tickerComponent.gameObject);
+            }
         }
 
         private static void Add(List<IUpdateable> updateables, IUpdateable updateable)
